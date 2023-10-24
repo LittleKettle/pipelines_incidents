@@ -18,6 +18,9 @@ object DataModule2: TDataModule2
   object ADODataSet1: TADODataSet
     Connection = ADOConnection1
     CursorType = ctStatic
+    CommandText = 
+      'select *  from  "'#1057#1086#1073#1099#1090#1080#1103' '#1074#1086#1076#1072'" '#13#10'  where ("'#1044#1072#1090#1072' '#1087#1086#1089#1090#1091#1087#1083#1077#1085#1080#1103'".AsD' +
+      'ateTime>Date_first)'
     Parameters = <>
     Left = 240
     Top = 72

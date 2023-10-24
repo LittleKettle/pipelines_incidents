@@ -140,10 +140,12 @@ end;
 
 procedure TForm2.BtnNextClick(Sender: TObject);
 begin
-  //kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода" where ("Дата поступления">Date_first) and ("Дата поступления"<Date_Second)';
-  kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода"';
+  kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода" where "Дата поступления">01-01-2010'; // AND ("Дата поступления"<2015-01-01)';
+  //kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода"';
+//  form1.Label1.Caption:= DatetoStr("Дата поступления".AsDateTime>Date_first); -- ???
   kemvod_db_dm.DataModule2.ADODataSet1.Active:= true;
   form1.show;
+  form2.Visible:=false;
 
 end;
 

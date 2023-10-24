@@ -16,6 +16,7 @@ type
     DataSource1: TDataSource;
     ADOConnection1: TADOConnection;
     ADODataSet1: TADODataSet;
+
   private
     { Private declarations }
   public
@@ -30,5 +31,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+
 
 end.
