@@ -9,6 +9,7 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.MSAcc,
   FireDAC.Phys.MSAccDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Comp.DataSet, Data.Win.ADODB;
+//  kemvod_db_sql;
 
 type
   TDataModule2 = class(TDataModule)

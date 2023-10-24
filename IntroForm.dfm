@@ -27,6 +27,7 @@ object Form2: TForm2
     Font.Height = -19
     Font.Name = 'Consolas'
     Font.Style = []
+    Font.Quality = fqClearType
     ParentFont = False
   end
   object BtnFxDate_frst: TButton
@@ -42,7 +43,7 @@ object Form2: TForm2
     Top = 28
     Width = 191
     Height = 160
-    Date = 45207.849657951390000000
+    Date = 45207.923878935190000000
     TabOrder = 1
     OnClick = MonthCalendar1Click
   end
@@ -133,7 +134,7 @@ object Form2: TForm2
     Top = 28
     Width = 191
     Height = 160
-    Date = 45207.849657962960000000
+    Date = 45207.923878946760000000
     TabOrder = 8
     OnClick = MonthCalendar2Click
   end
@@ -145,11 +146,12 @@ object Form2: TForm2
     TabOrder = 9
     object BtnNext: TButton
       Left = 3
-      Top = 3
+      Top = 5
       Width = 88
       Height = 33
       Caption = 'Next'
       TabOrder = 0
+      OnClick = BtnNextClick
     end
   end
 end

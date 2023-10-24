@@ -6,7 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.Samples.Spin,
-  System.DateUtils;
+  System.DateUtils,
+  kemvod_db_dm;
+
 
 type
   TForm2 = class(TForm)
@@ -34,6 +36,7 @@ type
     procedure SpinEdYear_secChange(Sender: TObject);
     procedure ComBxMoth_secChange(Sender: TObject);
     procedure ComBxDate_secChange(Sender: TObject);
+    procedure BtnNextClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -59,6 +62,8 @@ const
  implementation
 
 {$R *.dfm}
+
+uses kemvod_db_sql;
 
 procedure TForm2.FormCreate(Sender: TObject);
   var i:integer;
@@ -131,6 +136,15 @@ begin
   TryEncodeDate(SpinEdYear_sec.Value, ComBxMoth_sec.ItemIndex+1,
                                         ComBxDate_sec.ItemIndex+1, Date_Second);
   MonthCalendar2.Date:= Date_Second;
+end;
+
+procedure TForm2.BtnNextClick(Sender: TObject);
+begin
+  //kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода" where ("Дата поступления">Date_first) and ("Дата поступления"<Date_Second)';
+  kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода"';
+  kemvod_db_dm.DataModule2.ADODataSet1.Active:= true;
+  form1.show;
+
 end;
 
 procedure TForm2.ComBxDate_firstChange(Sender: TObject);
