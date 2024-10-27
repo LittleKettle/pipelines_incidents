@@ -12,16 +12,17 @@ object Form2: TForm2
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesigned
+  Position = poDesktopCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 13
     Top = 0
-    Width = 550
+    Width = 580
     Height = 22
-    Caption = 'Please enter a interval of date for formation the table'
+    Caption = 'Please enter a interval of date for to formation the table'
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -19
@@ -30,21 +31,13 @@ object Form2: TForm2
     Font.Quality = fqClearType
     ParentFont = False
   end
-  object BtnFxDate_frst: TButton
-    Left = 0
-    Top = 271
-    Width = 105
-    Height = 25
-    Caption = 'Fixed Date First'
-    TabOrder = 0
-  end
   object MonthCalendar1: TMonthCalendar
     Left = 48
     Top = 28
     Width = 191
     Height = 160
-    Date = 45207.923878935190000000
-    TabOrder = 1
+    Date = 45207.912172291670000000
+    TabOrder = 0
     OnClick = MonthCalendar1Click
   end
   object GrpBxDate_sec: TGroupBox
@@ -53,7 +46,7 @@ object Form2: TForm2
     Width = 281
     Height = 57
     Caption = 'Date Second'
-    TabOrder = 2
+    TabOrder = 1
   end
   object ComBxDate_sec: TComboBox
     Left = 334
@@ -61,7 +54,7 @@ object Form2: TForm2
     Width = 49
     Height = 21
     Style = csDropDownList
-    TabOrder = 3
+    TabOrder = 2
     OnChange = ComBxDate_secChange
   end
   object ComBxMoth_sec: TComboBox
@@ -70,7 +63,7 @@ object Form2: TForm2
     Width = 130
     Height = 21
     Style = csDropDownList
-    TabOrder = 4
+    TabOrder = 3
     OnChange = ComBxMoth_secChange
   end
   object SpinEdYear_sec: TSpinEdit
@@ -80,9 +73,10 @@ object Form2: TForm2
     Height = 22
     MaxValue = 0
     MinValue = 0
-    TabOrder = 5
+    TabOrder = 4
     Value = 0
     OnChange = SpinEdYear_secChange
+    OnEnter = SpinEdYear_secEnter
   end
   object GrpBxDate_frst: TGroupBox
     Left = 0
@@ -90,7 +84,7 @@ object Form2: TForm2
     Width = 281
     Height = 57
     Caption = 'Date First'
-    TabOrder = 6
+    TabOrder = 5
     object ComBxDate_first: TComboBox
       Left = 13
       Top = 25
@@ -119,23 +113,16 @@ object Form2: TForm2
       TabOrder = 2
       Value = 0
       OnChange = SpinEdYear_firstChange
+      OnEnter = SpinEdYear_firstEnter
     end
-  end
-  object BtnFxDate_sec: TButton
-    Left = 317
-    Top = 272
-    Width = 107
-    Height = 25
-    Caption = 'Fixed Date Second'
-    TabOrder = 7
   end
   object MonthCalendar2: TMonthCalendar
     Left = 375
     Top = 28
     Width = 191
     Height = 160
-    Date = 45207.923878946760000000
-    TabOrder = 8
+    Date = 45207.912172303240000000
+    TabOrder = 6
     OnClick = MonthCalendar2Click
   end
   object GroupBox1: TGroupBox
@@ -143,7 +130,7 @@ object Form2: TForm2
     Top = 296
     Width = 94
     Height = 41
-    TabOrder = 9
+    TabOrder = 7
     object BtnNext: TButton
       Left = 3
       Top = 5

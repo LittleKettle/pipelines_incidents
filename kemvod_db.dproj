@@ -108,6 +108,10 @@
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="TableForm.pas">
+            <Form>Form3</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_kemvod_db\default.txaPackage"/>
         <None Include="ModelSupport_kemvod_db\default.txvpck"/>
         <BuildConfiguration Include="Release">

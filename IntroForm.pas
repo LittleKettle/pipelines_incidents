@@ -12,7 +12,6 @@ uses
 
 type
   TForm2 = class(TForm)
-    BtnFxDate_frst: TButton;
     MonthCalendar1: TMonthCalendar;
     Label1: TLabel;
     GrpBxDate_sec: TGroupBox;
@@ -23,7 +22,6 @@ type
     ComBxDate_first: TComboBox;
     ComBxMoth_first: TComboBox;
     SpinEdYear_first: TSpinEdit;
-    BtnFxDate_sec: TButton;
     MonthCalendar2: TMonthCalendar;
     GroupBox1: TGroupBox;
     BtnNext: TButton;
@@ -37,6 +35,10 @@ type
     procedure ComBxMoth_secChange(Sender: TObject);
     procedure ComBxDate_secChange(Sender: TObject);
     procedure BtnNextClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure SpinEdYear_firstEnter(Sender: TObject);
+    procedure SpinEdYear_secEnter(Sender: TObject);
+
 
   private
     { Private declarations }
@@ -69,13 +71,11 @@ procedure TForm2.FormCreate(Sender: TObject);
   var i:integer;
 
 begin
-
   {Определение начальных значений визуальных контролов}
   for i:=0 to 11 do
     begin
-
-    ComBxMoth_first.Items.Add (MonthNom[i]);
-    ComBxMoth_sec.Items.Add (MonthNom[i]);
+      ComBxMoth_first.Items.Add (MonthNom[i]);
+      ComBxMoth_sec.Items.Add (MonthNom[i]);
     end;
   ComBxMoth_first.ItemIndex:=0;
   ComBxMoth_sec.ItemIndex:=MonthOf(Now())-1;     // т.к.возвращается индекс 10, а это ноябрь
@@ -97,6 +97,12 @@ begin
   //DEL label2.Caption:= inttostr(SpinEdYear_first.Value);
   //DEL label3.Caption:= inttostr(ComBxMoth_first.ItemIndex);
 
+end;
+
+procedure TForm2.FormDestroy(Sender: TObject);
+begin
+  //Date_first:=NULL;
+  //Date_Second:=NULL;
 end;
 
 {-->Events on Click on MontCalendar // События на нажатие на календарь}
@@ -121,11 +127,24 @@ end;
 
 procedure TForm2.SpinEdYear_firstChange(Sender: TObject);
 begin
-  {-->   }
+{  //-->
   LeapYear:=false;
   TryEncodeDate(SpinEdYear_first.Value, ComBxMoth_first.ItemIndex+1,
                                       ComBxDate_first.ItemIndex+1, Date_first);
-  {<--}
+  // <--
+  MonthCalendar1.Date:= Date_first;
+  if (SpinEdYear_first.Value mod 400)=0 then LeapYear:=true;
+}
+
+
+end;
+
+procedure TForm2.SpinEdYear_firstEnter(Sender: TObject);
+begin
+  LeapYear:=false;
+  TryEncodeDate(SpinEdYear_first.Value, ComBxMoth_first.ItemIndex+1,
+                                      ComBxDate_first.ItemIndex+1, Date_first);
+  // <--
   MonthCalendar1.Date:= Date_first;
   if (SpinEdYear_first.Value mod 400)=0 then LeapYear:=true;
 
@@ -133,21 +152,47 @@ end;
 
 procedure TForm2.SpinEdYear_secChange(Sender: TObject);
 begin
+{  TryEncodeDate(SpinEdYear_sec.Value, ComBxMoth_sec.ItemIndex+1,
+                                        ComBxDate_sec.ItemIndex+1, Date_Second);
+  MonthCalendar2.Date:= Date_Second;
+}
+end;
+
+
+
+procedure TForm2.SpinEdYear_secEnter(Sender: TObject);
+begin
   TryEncodeDate(SpinEdYear_sec.Value, ComBxMoth_sec.ItemIndex+1,
                                         ComBxDate_sec.ItemIndex+1, Date_Second);
   MonthCalendar2.Date:= Date_Second;
 end;
 
 procedure TForm2.BtnNextClick(Sender: TObject);
-begin
-  kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода" where "Дата поступления">01-01-2010'; // AND ("Дата поступления"<2015-01-01)';
-  //kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *  from  "События вода"';
-//  form1.Label1.Caption:= DatetoStr("Дата поступления".AsDateTime>Date_first); -- ???
-  kemvod_db_dm.DataModule2.ADODataSet1.Active:= true;
-  form1.show;
-  form2.Visible:=false;
 
-end;
+begin
+  //#2010/01/01# - такое работает если в SQL задать с обрамлением в #...#
+
+  kemvod_db_dm.DataModule2.ADODataSet1.Active:= false;
+  kemvod_db_dm.DataModule2.ADODataSet1.CommandText:= 'select *' +
+  'from  "События вода", "Улицы" '+
+  'where ("Дата поступления">:Date_frst) AND ("Дата поступления"<:Date_scnd)'+
+  //'INNER JOIN "Улицы" ON "События вода.Указатель_улица"="Улицы.ID"';    -- необходимо исследовать!
+  'AND ("События вода.Указатель_улица"="Улицы.ID")';  // работает, доабвляя справа
+(*  'AND ' +
+  ''; *)
+  kemvod_db_dm.DataModule2.ADODataSet1.Parameters.ParamByName('Date_frst').Value:= Date_first;
+  kemvod_db_dm.DataModule2.ADODataSet1.Parameters.ParamByName('Date_scnd').Value:= Date_Second;
+  kemvod_db_dm.DataModule2.ADODataSet1.Active:= true;
+  //kemvod_db_dm.DataModule2.ADODataSet1.FieldByName('Указатель_улица').Visible:=false; // не отображается в DBGrid, но есть по фвкту и считается по индексу и т.д. => нужно выбрать нужные поля!
+  Form1.DBGrid1.DataSource.DataSet.FieldByName('Указатель_улица').Index:=Form1.DBGrid1.FieldCount+1;
+  Form1.DBGrid1.DataSource.DataSet.FieldByName('Улица').Index:=3;
+//  kemvod_db_dm.DataModule2.ADODataSet1.FieldByName('Улица').;
+
+  form1.show;
+  //Date_first:=NULL;
+  //Date_Second:=NULL;
+  form2.Close;
+ end;
 
 procedure TForm2.ComBxDate_firstChange(Sender: TObject);
 begin
